@@ -1,16 +1,30 @@
 from time import sleep
 from selenium import webdriver
-from webdriver_manager.chrome import ChromeDriverManager
-import os;
 
-os.environ["PATH"] += os.pathsep + r'C:\Users\fourth-home\Downloads\chromedriver_win32\chromedriver.exe';
+# Open up chrome webdriver and direct to the quiz
+driver = webdriver.Chrome(executable_path=r'/mnt/c/tools/chromedriver.exe')
+driver.get("https://remeeting:quiz@remeeting.com/quiz/")
 
-browser = webdriver.Chrome()
-browser.implicitly_wait(5)
+## Iterate over all the possible numbers
+for i in range (0, 1000):
+    # Find the Element called numbers
+    num = driver.find_element_by_name("number")
 
-browser.get('https://remeeting.com/quiz/')
+    # Enter in the number where are trying
+    num.send_keys(str(i))
 
-sleep(2)
+    #Click Submit
+    driver.find_element_by_xpath("//input[@value='Submit']").click()
+
+    #Copy and print out the html result
+    x = driver.find_element_by_tag_name('body')
+    print(x.text)
+
+    #return back to the page and try again
+    driver.find_element_by_link_text("OK, go back...").click()
+
+
+
 
 
 
